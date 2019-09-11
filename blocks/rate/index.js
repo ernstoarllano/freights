@@ -9,7 +9,7 @@
  */
 const { __ } = wp.i18n
 const { registerBlockType } = wp.blocks
-const { RichText } = wp.editor
+const { ColorPalette, InspectorControls, RichText } = wp.editor
 
 export default registerBlockType('freights/rate', {
   title: __('Rate Block', 'freights'),
@@ -24,6 +24,10 @@ export default registerBlockType('freights/rate', {
       type: 'array',
       source: 'children',
       selector: 'ul'
+    },
+    fontColor: {
+      type: 'string',
+      default: 'black'
     }
   },
   edit: props => {
@@ -37,29 +41,49 @@ export default registerBlockType('freights/rate', {
       setAttributes({ content })
     }
 
+    const colorChange = color => {
+      setAttributes({ fontColor: color })
+    }
+
     return (
-      <div className={className}>
-        <RichText
-          tagName="h3"
-          value={attributes.heading}
-          onChange={headingChange}
-        />
-        <RichText
-          tagName="ul"
-          multiline="li"
-          value={attributes.content}
-          onChange={contentChange}
-        />
-      </div>
+      <>
+        <InspectorControls>
+          <ColorPalette value={attributes.fontColor} onChange={colorChange} />
+        </InspectorControls>
+        <div className={className}>
+          <RichText
+            tagName="h3"
+            value={attributes.heading}
+            onChange={headingChange}
+            style={{ color: attributes.fontColor }}
+          />
+          <RichText
+            tagName="ul"
+            multiline="li"
+            value={attributes.content}
+            onChange={contentChange}
+            style={{ color: attributes.fontColor }}
+          />
+        </div>
+      </>
     )
   },
   save: props => {
     const { attributes, className } = props
+    const { heading, content, fontColor } = attributes
 
     return (
       <div className={className}>
-        <RichText.Content tagName="h3" value={attributes.heading} />
-        <RichText.Content tagName="ul" value={attributes.content} />
+        <RichText.Content
+          tagName="h3"
+          value={heading}
+          style={{ color: fontColor }}
+        />
+        <RichText.Content
+          tagName="ul"
+          value={content}
+          style={{ color: fontColor }}
+        />
       </div>
     )
   }
