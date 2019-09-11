@@ -1,18 +1,18 @@
 /**
- * Block dependencies
- */
-//import './editor.css'
-//import './style.css'
-
-/**
- * WordPress libraries
+ * WordPress dependencies
  */
 const { __ } = wp.i18n
 const { registerBlockType } = wp.blocks
 const { ColorPalette, InspectorControls, RichText } = wp.editor
 
+/**
+ * Internal dependencies
+ */
+import { icon } from './icon'
+
 export default registerBlockType('freights/rate', {
-  title: __('Rate Block', 'freights'),
+  title: __('Rate', 'freights'),
+  icon: icon,
   category: 'layout',
   attributes: {
     heading: {
@@ -56,6 +56,8 @@ export default registerBlockType('freights/rate', {
             value={attributes.heading}
             onChange={headingChange}
             style={{ color: attributes.fontColor }}
+            placeholder={__('Rate Type')}
+            keepPlaceholderOnFocus={true}
           />
           <RichText
             tagName="ul"
@@ -63,6 +65,7 @@ export default registerBlockType('freights/rate', {
             value={attributes.content}
             onChange={contentChange}
             style={{ color: attributes.fontColor }}
+            placeholder={__('Rate')}
           />
         </div>
       </>

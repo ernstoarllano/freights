@@ -1,1 +1,2 @@
-import '../blocks/rate'
+import './blocks/rates'
+import './blocks/rate'
