@@ -11,6 +11,7 @@ const { __ } = wp.i18n
 const { registerBlockType } = wp.blocks
 const { InnerBlocks, InspectorControls } = wp.editor
 const { PanelBody, RangeControl } = wp.components
+const { useState } = wp.element
 
 /**
  * Internal dependencies
@@ -20,7 +21,7 @@ import { icon } from './icon'
 /**
  * Allowed blocks constant is passed to InnerBlocks
  * The array should contain the name of each block that is allowed
- * 
+ *
  * @constant
  * @type {string[]}
  */
@@ -29,78 +30,45 @@ const ALLOWED_BLOCKS = ['freights/rate']
 /**
  * Number of columns to assume for template in case user
  * opts to skip template option selection
- * 
+ *
  * @constant
  * @type {number}
  */
-const DEFAULT_COLUMNS = 1
-
-/**
- * Template options for predefined columns layouts
- * 
- * @constant
- * @type {array}
- */
-const TEMPLATE_OPTIONS = [
-  {
-    title: __('One Rate'),
-    template: [
-      ['freights/rate']
-    ]
-  },
-  {
-    title: __('Two Rates'),
-    template: [
-      ['freights/rate'],
-      ['freights/rate']
-    ]
-  },
-  {
-    title: __('Three Rates'),
-    template: [
-      ['freights/rate'],
-      ['freights/rate'],
-      ['freights/rate']
-    ]
-  },
-  {
-    title: __('Four Rates'),
-    template: [
-      ['freights/rate'],
-      ['freights/rate'],
-      ['freights/rate'],
-      ['freights/rate']
-    ]
-  }
-]
+const DEFAULT_COLUMNS = 2
 
 /**
  * Returns the layout configuration for a given number of columns
- * 
- * @param   {number} columns 
+ *
+ * @param   {number} columns
  * @return  {Object[]}
  */
 const getColumnsTemplate = columns => {
-  return times(columns, () => ['freight/rate'])
+  return times(columns, () => ['freights/rate'])
 }
 
 export default registerBlockType('freights/rates', {
-  title: __('Rates', 'freights'),
+  title: __('Rates'),
+  description: __('Add a block that displays rates in multiple columns.'),
   icon: icon,
   category: 'formatting',
   attributes: {
     columns: {
       type: 'number',
       default: DEFAULT_COLUMNS
-    },
+    }
   },
   edit: props => {
     const { attributes, className, setAttributes } = props
     const { columns } = attributes
 
+    // Store initial template to use
+    const [template, setTemplate] = useState(getColumnsTemplate(columns))
+
     // Update column count
     const columnCount = columns => {
       setAttributes({ columns })
+
+      setTemplate(getColumnsTemplate(columns))
     }
 
     // Set container classes
@@ -121,8 +89,9 @@ export default registerBlockType('freights/rates', {
         </InspectorControls>
         <div className={classes}>
           <InnerBlocks
+            template={template}
             allowedBlocks={ALLOWED_BLOCKS}
-            __experimentalTemplateOptions={TEMPLATE_OPTIONS}
+            templateLock="all"
           />
         </div>
       </>

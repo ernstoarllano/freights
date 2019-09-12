@@ -4,6 +4,7 @@
 const { __ } = wp.i18n
 const { registerBlockType } = wp.blocks
 const { ColorPalette, InspectorControls, RichText } = wp.editor
+const { PanelBody } = wp.components
 
 /**
  * Internal dependencies
@@ -11,7 +12,8 @@ const { ColorPalette, InspectorControls, RichText } = wp.editor
 import { icon } from './icon'
 
 export default registerBlockType('freights/rate', {
-  title: __('Rate', 'freights'),
+  title: __('Rate'),
+  description: __("Add a block that displays rate content you'd like."),
   icon: icon,
   category: 'layout',
   attributes: {
@@ -48,7 +50,9 @@ export default registerBlockType('freights/rate', {
     return (
       <>
         <InspectorControls>
-          <ColorPalette value={attributes.fontColor} onChange={colorChange} />
+          <PanelBody title={__('Font Color')}>
+            <ColorPalette value={attributes.fontColor} onChange={colorChange} />
+          </PanelBody>
         </InspectorControls>
         <div className={className}>
           <RichText
