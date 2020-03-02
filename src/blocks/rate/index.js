@@ -1,10 +1,19 @@
 /**
+ * External dependencies
+ */
+import classnames from 'classnames'
+
+/**
  * WordPress dependencies
  */
-const { __ } = wp.i18n
-const { registerBlockType } = wp.blocks
-const { ColorPalette, InspectorControls, RichText } = wp.editor
-const { PanelBody } = wp.components
+import { __ } from '@wordpress/i18n'
+import { registerBlockType } from '@wordpress/blocks'
+import {
+  ColorPalette,
+  InspectorControls,
+  RichText
+} from '@wordpress/block-editor'
+import { PanelBody } from '@wordpress/components'
 
 /**
  * Internal dependencies
@@ -30,6 +39,9 @@ export default registerBlockType('freights/rate', {
     fontColor: {
       type: 'string',
       default: 'black'
+    },
+    width: {
+      type: 'number'
     }
   },
   edit: props => {
@@ -43,9 +55,12 @@ export default registerBlockType('freights/rate', {
       setAttributes({ content })
     }
 
-    const colorChange = color => {
-      setAttributes({ fontColor: color })
+    const colorChange = fontColor => {
+      setAttributes({ fontColor })
     }
+
+    // Set rate container classes
+    const classes = classnames(className, 'p-6')
 
     return (
       <>
@@ -54,7 +69,7 @@ export default registerBlockType('freights/rate', {
             <ColorPalette value={attributes.fontColor} onChange={colorChange} />
           </PanelBody>
         </InspectorControls>
-        <div className={className}>
+        <div className={classes} style={{ flexBasis: `${attributes.width}%` }}>
           <RichText
             tagName="h3"
             value={attributes.heading}
@@ -79,8 +94,11 @@ export default registerBlockType('freights/rate', {
     const { attributes, className } = props
     const { heading, content, fontColor } = attributes
 
+    // Set rate container classes
+    const classes = classnames(className, 'p-6')
+
     return (
-      <div className={className}>
+      <div className={classes} style={{ width: `${attributes.width}%` }}>
         <RichText.Content
           tagName="h3"
           value={heading}

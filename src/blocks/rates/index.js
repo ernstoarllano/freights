@@ -7,16 +7,17 @@ import { times } from 'lodash'
 /**
  * WordPress dependencies
  */
-const { __ } = wp.i18n
-const { registerBlockType } = wp.blocks
-const { InnerBlocks, InspectorControls } = wp.editor
-const { PanelBody, RangeControl } = wp.components
-const { useState } = wp.element
+import { __ } from '@wordpress/i18n'
+import { registerBlockType } from '@wordpress/blocks'
+import { InnerBlocks, InspectorControls } from '@wordpress/block-editor'
+import { PanelBody, RangeControl } from '@wordpress/components'
+import { useState } from '@wordpress/element'
 
 /**
  * Internal dependencies
  */
 import { icon } from './icon'
+import './editor.scss'
 
 /**
  * Allowed blocks constant is passed to InnerBlocks
@@ -28,66 +29,76 @@ import { icon } from './icon'
 const ALLOWED_BLOCKS = ['freights/rate']
 
 /**
- * Number of columns to assume for template in case user
+ * Number of rates to assume for template in case user
  * opts to skip template option selection
  *
  * @constant
  * @type {number}
  */
-const DEFAULT_COLUMNS = 2
+const DEFAULT_RATES = 2
+
+const calculateWidth = rates => {
+  return parseFloat(100 / rates)
+}
 
 /**
- * Returns the layout configuration for a given number of columns
+ * Returns the layout configuration for a given number of rates
  *
- * @param   {number} columns
+ * @param   {number} rates
  * @return  {Object[]}
  */
-const getColumnsTemplate = columns => {
-  return times(columns, () => ['freights/rate'])
+const getRatesTemplate = rates => {
+  console.log(rates)
+
+  return times(rates, () => ['freights/rate', { width: calculateWidth(rates) }])
 }
 
 export default registerBlockType('freights/rates', {
   title: __('Rates'),
-  description: __('Add a block that displays rates in multiple columns.'),
+  description: __('Add a rates block to display multiple rates.'),
   icon: icon,
   category: 'formatting',
+  supports: {
+    align: true,
+    align: ['wide', 'full']
+  },
   attributes: {
-    columns: {
+    align: {
+      type: 'string'
+    },
+    rates: {
       type: 'number',
-      default: DEFAULT_COLUMNS
+      default: DEFAULT_RATES
     }
   },
   edit: props => {
     const { attributes, className, setAttributes } = props
-    const { columns } = attributes
+    const { rates } = attributes
 
     // Store initial template to use
-    const [template, setTemplate] = useState(getColumnsTemplate(columns))
+    const [template, setTemplate] = useState(getRatesTemplate(rates))
 
     // Update column count
-    const columnCount = columns => {
-      setAttributes({ columns })
+    const columnCount = rates => {
+      setAttributes({ rates })
 
-      setTemplate(getColumnsTemplate(columns))
+      setTemplate(getRatesTemplate(rates))
     }
-
-    // Set container classes
-    const classes = classnames(className, `has-${columns}`)
 
     return (
       <>
         <InspectorControls>
           <PanelBody>
             <RangeControl
-              label={__('Columns')}
-              value={columns}
+              label={__('Rates')}
+              value={rates}
               min={1}
               max={4}
               onChange={columnCount}
             />
           </PanelBody>
         </InspectorControls>
-        <div className={classes}>
+        <div className={className}>
           <InnerBlocks
             template={template}
             allowedBlocks={ALLOWED_BLOCKS}
@@ -99,13 +110,10 @@ export default registerBlockType('freights/rates', {
   },
   save: props => {
     const { attributes, className } = props
-    const { columns } = attributes
-
-    // Set container classes
-    const classes = classnames(className, `has-${columns}`)
+    const { rates } = attributes
 
     return (
-      <div className={classes}>
+      <div className={className}>
         <InnerBlocks.Content />
       </div>
     )

@@ -25,9 +25,18 @@ if ( !function_exists('register_block_type') ) {
 // Register block assets
 add_action('enqueue_block_assets', function() {
   wp_enqueue_script(
-    'freights',
+    'freights-js',
     plugins_url('/build/index.js', __FILE__),
     ['wp-i18n', 'wp-element', 'wp-blocks', 'wp-components', 'wp-editor'],
     filemtime(plugin_dir_path(__FILE__) . '/build/index.js')
+  );
+});
+
+add_action('enqueue_block_editor_assets', function() {
+  wp_enqueue_style(
+    'frieghts-css',
+    plugins_url('/build/index.css', __FILE__),
+    ['wp-edit-blocks'],
+    filemtime(plugin_dir_path(__FILE__) . '/build/index.css')
   );
 });
