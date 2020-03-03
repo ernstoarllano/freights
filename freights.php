@@ -22,21 +22,42 @@ if ( !function_exists('register_block_type') ) {
   return;
 }
 
-// Register block assets
+// Register block front-end assets
 add_action('enqueue_block_assets', function() {
+  wp_enqueue_style(
+    'frieghts-css',
+    plugins_url('/build/style.css', __FILE__),
+    ['wp-edit-blocks'],
+    filemtime(plugin_dir_path(__FILE__) . '/build/style.css')
+  );
+});
+
+// Register block backend assets
+add_action('enqueue_block_editor_assets', function() {
   wp_enqueue_script(
     'freights-js',
     plugins_url('/build/index.js', __FILE__),
     ['wp-i18n', 'wp-element', 'wp-blocks', 'wp-components', 'wp-editor'],
     filemtime(plugin_dir_path(__FILE__) . '/build/index.js')
   );
-});
 
-add_action('enqueue_block_editor_assets', function() {
   wp_enqueue_style(
     'frieghts-css',
-    plugins_url('/build/index.css', __FILE__),
+    plugins_url('/build/editor.css', __FILE__),
     ['wp-edit-blocks'],
-    filemtime(plugin_dir_path(__FILE__) . '/build/index.css')
+    filemtime(plugin_dir_path(__FILE__) . '/build/editor.css')
   );
 });
+
+// Register custom blocks category
+add_filter('block_categories', function( $categories, $post ) {
+  return array_merge(
+    $categories,
+    [
+      [
+        'slug'  => 'bigrigmedia',
+        'title' => __('Big Rig Media', 'bigrigmedia')
+      ]
+    ]
+  );
+}, 10, 2);

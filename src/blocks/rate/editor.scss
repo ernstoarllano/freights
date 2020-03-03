@@ -1,0 +1,23 @@
+.wp-block-freights-rate {
+  height: 100%;
+  padding: 30px;
+  background-color: white;
+}
+
+.wp-block-freights-rate .block-editor-inner-blocks {
+  height: 100%;
+}
+
+.wp-block-freights-rate .block-editor-block-list__layout {
+  display: block;
+  height: 100%;
+}
+
+.wp-block-freights-rate
+  > .block-editor-inner-blocks
+  > .block-editor-block-list__layout
+  > .block-list-appender {
+  width: 100%;
+  margin-top: auto;
+  margin-bottom: 0;
+}

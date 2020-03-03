@@ -1,0 +1,9 @@
+.wp-block-freights-rate {
+  padding: 15px;
+  background-color: white;
+
+  // 1024
+  @media (min-width: 1024px) {
+    padding: 30px;
+  }
+}

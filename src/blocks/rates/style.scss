@@ -1,3 +1,26 @@
-.wp-block-freights-rate {
-  padding: 30px;
+.wp-block-freights-rates {
+  display: grid;
+  grid-template-columns: 1fr;
+  grid-gap: 30px;
+}
+
+.wp-block-freights-rates[data-rates='2'] {
+  // 1024
+  @media (min-width: 1024px) {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+.wp-block-freights-rates[data-rates='3'] {
+  // 1024
+  @media (min-width: 1024px) {
+    grid-template-columns: repeat(3, 1fr);
+  }
+}
+
+.wp-block-freights-rates[data-rates='4'] {
+  // 1024
+  @media (min-width: 1024px) {
+    grid-template-columns: repeat(4, 1fr);
+  }
 }
