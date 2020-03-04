@@ -37,9 +37,16 @@ export default registerBlockType('freights/card', {
       type: 'string',
       default: 'white'
     },
-    backgroundImage: {
+    mediaID: {
+      type: 'number'
+    },
+    mediaSizes: {
       type: 'object',
       default: {}
+    },
+    order: {
+      type: 'string',
+      default: 'default'
     }
   },
   edit,

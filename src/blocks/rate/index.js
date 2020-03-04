@@ -31,10 +31,6 @@ export default registerBlockType('freights/rate', {
     alignment: {
       type: 'string',
       default: 'none'
-    },
-    width: {
-      type: 'number',
-      default: 100
     }
   },
   edit,

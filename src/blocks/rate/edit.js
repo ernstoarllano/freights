@@ -21,10 +21,10 @@ import { PanelBody } from '@wordpress/components'
  * @constant
  * @type {string[]}
  */
-const ALLOWED_BLOCKS = ['core/heading', 'core/paragraph']
+const ALLOWED_BLOCKS = ['core/button', 'core/heading', 'core/list', 'core/paragraph']
 
 const RateEdit = ({ attributes, className, hasChildBlocks, setAttributes }) => {
-  const { alignment, width } = attributes
+  const { alignment } = attributes
   const classes = classnames(className, `has-text-align-${alignment}`)
 
   const alignmentChange = alignment => {
@@ -34,11 +34,11 @@ const RateEdit = ({ attributes, className, hasChildBlocks, setAttributes }) => {
   return (
     <>
       <InspectorControls>
-        <PanelBody title={__('Rate Alignment')}>
+        <PanelBody title={__('Text Alignment')}>
           <AlignmentToolbar value={alignment} onChange={alignmentChange} />
         </PanelBody>
       </InspectorControls>
-      <div className={classes} style={{ flexBasis: `${width}%` }}>
+      <div className={classes}>
         <InnerBlocks
           allowedBlocks={ALLOWED_BLOCKS}
           renderAppender={

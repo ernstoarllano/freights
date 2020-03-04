@@ -26,8 +26,8 @@ const calculateWidth = rates => {
  * @param   {number} rates
  * @return  {Object[]}
  */
-const getRatesTemplate = rates => {
-  return times(rates, () => ['freights/rate', { width: calculateWidth(rates) }])
+const getRatesTemplate = (rates) => {
+  return times(rates, () => ['freights/rate'])
 }
 
 /**
@@ -65,7 +65,7 @@ const RatesEdit = ({ attributes, className, setAttributes }) => {
           />
         </PanelBody>
       </InspectorControls>
-      <div className={className}>
+      <div className={className} data-rates={rates}>
         <InnerBlocks
           template={template}
           allowedBlocks={ALLOWED_BLOCKS}
