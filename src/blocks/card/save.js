@@ -7,7 +7,10 @@ import classnames from 'classnames'
  * WordPress dependencies
  */
 import { getBlockDefaultClassName } from '@wordpress/blocks'
-import { getColorObjectByColorValue, InnerBlocks } from '@wordpress/block-editor'
+import {
+  getColorObjectByColorValue,
+  InnerBlocks
+} from '@wordpress/block-editor'
 
 /**
  * Internal dependencies
@@ -23,18 +26,22 @@ const CardSave = ({ attributes }) => {
     backgroundColor
   )
 
-  const isReversed = order !== 'default' ? 'is-reversed' : 'is-default'
   const hasBackgroundColor =
     backgroundColorClassName !== undefined
       ? `has-background-color has-background-color-${backgroundColorClassName.slug}`
       : ''
-  const classes = classnames(className, isReversed)
-  const contentClasses = classnames('wp-block-freights-card__content', hasBackgroundColor)
+  const contentClasses = classnames(
+    'wp-block-freights-card__content',
+    hasBackgroundColor
+  )
 
   return (
-    <div className={classes}>
+    <div className={className} data-order={order}>
       {'full' in mediaSizes && (
-        <div className="wp-block-freights-card__media" style={{ backgroundImage: `url(${mediaSizes.full.url})` }}></div>
+        <div
+          className="wp-block-freights-card__media"
+          style={{ backgroundImage: `url(${mediaSizes.full.url})` }}
+        ></div>
       )}
       <div className={contentClasses}>
         <InnerBlocks.Content />

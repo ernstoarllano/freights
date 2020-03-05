@@ -8,11 +8,12 @@ import classnames from 'classnames'
  */
 import { __ } from '@wordpress/i18n'
 import {
-  getColorObjectByColorValue,
   InspectorControls,
-  ColorPalette
+  ColorPalette,
+  MediaUploadCheck,
+  MediaUpload
 } from '@wordpress/block-editor'
-import { PanelBody, SelectControl } from '@wordpress/components'
+import { PanelBody, SelectControl, Button } from '@wordpress/components'
 import { InnerBlocks } from '@wordpress/block-editor'
 
 /**
@@ -20,32 +21,26 @@ import { InnerBlocks } from '@wordpress/block-editor'
  */
 import { config } from '../../defaultConfig'
 
+/**
+ * Allowed media types constant is passed to MediaUpload
+ * The array should contain the name of each file type that is allowed
+ *
+ * @constant
+ * @type {string[]}
+ */
+const ALLOWED_MEDIA_TYPES = ['image']
+
 const ContainerEdit = ({
   attributes,
   className,
   hasChildBlocks,
   setAttributes
 }) => {
-  const { align, backgroundColor } = attributes
+  const { align } = attributes
 
   const alignChange = align => {
     setAttributes({ align })
   }
-
-  const backgroundColorChange = backgroundColor => {
-    setAttributes({ backgroundColor })
-  }
-
-  const backgroundColorClassName = getColorObjectByColorValue(
-    config.colors,
-    backgroundColor
-  )
-
-  const hasBackgroundColor =
-    backgroundColorClassName !== undefined
-      ? `has-background-color has-background-color-${backgroundColorClassName.slug}`
-      : ''
-  const classes = classnames('wp-block-freights-section', hasBackgroundColor)
 
   return (
     <>
@@ -60,26 +55,18 @@ const ContainerEdit = ({
               { value: 'wide', label: 'Wide' }
             ]}
           />
-          <ColorPalette
-            colors={config.colors}
-            value={backgroundColor}
-            onChange={backgroundColorChange}
-            clearable={true}
-          />
         </PanelBody>
       </InspectorControls>
-      <section className={classes} data-align={align}>
-        <div className={className}>
-          <InnerBlocks
-            renderAppender={
-              hasChildBlocks
-                ? undefined
-                : () => <InnerBlocks.ButtonBlockAppender />
-            }
-            templateLock={false}
-          />
-        </div>
-      </section>
+      <div className={className} data-align={align}>
+        <InnerBlocks
+          renderAppender={
+            hasChildBlocks
+              ? undefined
+              : () => <InnerBlocks.ButtonBlockAppender />
+          }
+          templateLock={false}
+        />
+      </div>
     </>
   )
 }

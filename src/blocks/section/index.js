@@ -15,19 +15,30 @@ import { icon } from './icon'
 import edit from './edit'
 import save from './save'
 
-export default registerBlockType('freights/container', {
-  title: __('Container'),
-  description: __('Wrap your content in a container.'),
+export default registerBlockType('freights/section', {
+  title: __('Section'),
+  description: __('Wrap your content in a section.'),
   icon: icon,
   category: 'bigrigmedia',
   supports: {
     align: true,
-    align: ['wide', 'full']
+    align: ['full']
   },
   attributes: {
     align: {
       type: 'string',
-      default: 'wide'
+      default: 'full'
+    },
+    backgroundColor: {
+      type: 'string',
+      default: 'white'
+    },
+    mediaID: {
+      type: 'number'
+    },
+    mediaSizes: {
+      type: 'object',
+      default: {}
     }
   },
   edit,

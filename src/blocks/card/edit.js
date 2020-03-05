@@ -62,12 +62,10 @@ const CardEdit = ({ attributes, className, hasChildBlocks, setAttributes }) => {
     backgroundColor
   )
 
-  const isReversed = order !== 'default' ? 'is-reversed' : 'is-default'
   const hasBackgroundColor =
     backgroundColorClassName !== undefined
       ? `has-background-color has-background-color-${backgroundColorClassName.slug}`
       : ''
-  const classes = classnames(className, isReversed)
   const contentClasses = classnames(
     'wp-block-freights-card__content',
     hasBackgroundColor
@@ -110,7 +108,7 @@ const CardEdit = ({ attributes, className, hasChildBlocks, setAttributes }) => {
           />
         </PanelBody>
       </InspectorControls>
-      <div className={classes}>
+      <div className={className} data-order={order}>
         {'full' in mediaSizes && (
           <div
             className="wp-block-freights-card__media"
