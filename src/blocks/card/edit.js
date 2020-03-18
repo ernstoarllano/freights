@@ -21,7 +21,7 @@ import { InnerBlocks } from '@wordpress/block-editor'
 /**
  * Internal dependencies
  */
-import { config } from '../../defaultConfig'
+import { config } from '../../theme'
 
 /**
  * Allowed media types constant is passed to MediaUpload

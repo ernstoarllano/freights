@@ -13,10 +13,10 @@ import { InnerBlocks } from '@wordpress/block-editor'
 /**
  * Internal dependencies
  */
-import { config } from '../../defaultConfig'
+import { config } from '../../theme'
 
 const SectionSave = ({ attributes }) => {
-  const { align, backgroundColor } = attributes
+  const { align, backgroundColor, mediaSizes } = attributes
   const className = getBlockDefaultClassName('freights/section')
 
   const backgroundColorClassName = getColorObjectByColorValue(
@@ -32,7 +32,15 @@ const SectionSave = ({ attributes }) => {
 
   return (
     <>
-      <section className={classes} data-align={align}>
+      <section
+        className={classes}
+        data-align={align}
+        data-mobile={'thumbnail' in mediaSizes && mediaSizes.thumbnail.url}
+        data-desktop={'full' in mediaSizes && mediaSizes.full.url}
+        style={{
+          backgroundImage: 'full' in mediaSizes && `url(${mediaSizes.full.url})`
+        }}
+      >
         <InnerBlocks.Content />
       </section>
     </>

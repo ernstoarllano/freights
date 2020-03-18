@@ -17,13 +17,13 @@ module.exports = {
         editor: {
           name: 'editor',
           test: /editor\.(sc|sa|c)ss$/,
-          //chunks: 'all',
+          chunks: 'all',
           enforce: true
         },
         style: {
           name: 'style',
           test: /style\.(sc|sa|c)ss$/,
-          //chunks: 'all',
+          chunks: 'all',
           enforce: true
         },
         default: false

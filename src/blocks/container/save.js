@@ -12,15 +12,16 @@ import { InnerBlocks } from '@wordpress/block-editor'
 /**
  * Internal dependencies
  */
-import { config } from '../../defaultConfig'
+import { config } from '../../theme'
 
 const ContainerSave = ({ attributes }) => {
-  const { align } = attributes
+  const { fullWidth } = attributes
   const className = getBlockDefaultClassName('freights/container')
+  const containerWidth = fullWidth ? 'full' : 'wide'
 
   return (
     <>
-      <div className={className} data-align={align}>
+      <div className={className} data-width={containerWidth}>
         <InnerBlocks.Content />
       </div>
     </>

@@ -14,13 +14,13 @@ import {
   MediaUploadCheck,
   MediaUpload
 } from '@wordpress/block-editor'
-import { PanelBody, SelectControl, Button } from '@wordpress/components'
+import { PanelBody, Button } from '@wordpress/components'
 import { InnerBlocks } from '@wordpress/block-editor'
 
 /**
  * Internal dependencies
  */
-import { config } from '../../defaultConfig'
+import { config } from '../../theme'
 
 /**
  * Allowed media types constant is passed to MediaUpload
@@ -43,10 +43,19 @@ const SectionEdit = ({
     setAttributes({ backgroundColor })
   }
 
+  const removeBackgroundImage = () => {
+    setAttributes({
+      mediaID: undefined,
+      mediaSizes: []
+    })
+  }
+
   const backgroundColorClassName = getColorObjectByColorValue(
     config.colors,
     backgroundColor
   )
+
+  console.log(mediaID)
 
   const hasBackgroundColor =
     backgroundColorClassName !== undefined
@@ -74,13 +83,26 @@ const SectionEdit = ({
               allowedTypes={ALLOWED_MEDIA_TYPES}
               value={mediaID}
               render={({ open }) => (
-                <Button onClick={open}>Open Media Library</Button>
+                <Button onClick={open}>{__('Add Background Image')}</Button>
               )}
             />
+            {!!mediaID && (
+              <Button onClick={removeBackgroundImage}>
+                {__('Remove Background Image')}
+              </Button>
+            )}
           </MediaUploadCheck>
         </PanelBody>
       </InspectorControls>
-      <section className={classes} data-align={align}>
+      <section
+        className={classes}
+        data-align={align}
+        data-mobile={'thumbnail' in mediaSizes && mediaSizes.thumbnail.url}
+        data-desktop={'full' in mediaSizes && mediaSizes.full.url}
+        style={{
+          backgroundImage: 'full' in mediaSizes && `url(${mediaSizes.full.url})`
+        }}
+      >
         <InnerBlocks
           renderAppender={
             hasChildBlocks

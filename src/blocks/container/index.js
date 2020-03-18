@@ -28,6 +28,10 @@ export default registerBlockType('freights/container', {
     align: {
       type: 'string',
       default: 'wide'
+    },
+    fullWidth: {
+      type: 'boolean',
+      default: false
     }
   },
   edit,

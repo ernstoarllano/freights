@@ -15,7 +15,7 @@ import {
 /**
  * Internal dependencies
  */
-import { config } from '../../defaultConfig'
+import { config } from '../../theme'
 
 const CardSave = ({ attributes }) => {
   const { backgroundImage, backgroundColor, mediaSizes, order } = attributes

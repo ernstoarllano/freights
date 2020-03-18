@@ -7,28 +7,14 @@ import classnames from 'classnames'
  * WordPress dependencies
  */
 import { __ } from '@wordpress/i18n'
-import {
-  InspectorControls,
-  ColorPalette,
-  MediaUploadCheck,
-  MediaUpload
-} from '@wordpress/block-editor'
-import { PanelBody, SelectControl, Button } from '@wordpress/components'
+import { InspectorControls } from '@wordpress/block-editor'
+import { PanelBody, ToggleControl } from '@wordpress/components'
 import { InnerBlocks } from '@wordpress/block-editor'
 
 /**
  * Internal dependencies
  */
-import { config } from '../../defaultConfig'
-
-/**
- * Allowed media types constant is passed to MediaUpload
- * The array should contain the name of each file type that is allowed
- *
- * @constant
- * @type {string[]}
- */
-const ALLOWED_MEDIA_TYPES = ['image']
+import { config } from '../../theme'
 
 const ContainerEdit = ({
   attributes,
@@ -36,28 +22,28 @@ const ContainerEdit = ({
   hasChildBlocks,
   setAttributes
 }) => {
-  const { align } = attributes
-
-  const alignChange = align => {
-    setAttributes({ align })
-  }
+  const { fullWidth } = attributes
+  const containerWidth = fullWidth ? 'full' : 'wide'
 
   return (
     <>
       <InspectorControls>
         <PanelBody title={__('Width')}>
-          <SelectControl
-            label={__('Select a width')}
-            value={align}
-            onChange={alignChange}
-            options={[
-              { value: 'full', label: 'Full' },
-              { value: 'wide', label: 'Wide' }
-            ]}
+          <ToggleControl
+            label={__('Full Width')}
+            help={
+              fullWidth
+                ? __('Container is full width.')
+                : __('Toggle to set container to full width.')
+            }
+            checked={fullWidth}
+            onChange={() => {
+              setAttributes({ fullWidth: !fullWidth })
+            }}
           />
         </PanelBody>
       </InspectorControls>
-      <div className={className} data-align={align}>
+      <div className={className} data-width={containerWidth}>
         <InnerBlocks
           renderAppender={
             hasChildBlocks

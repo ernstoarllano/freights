@@ -9,7 +9,11 @@
   }
 }
 
-.wp-block-freights-container[data-align='wide'] {
+.wp-block-freights-container[data-width='full'] {
+  max-width: 100%;
+}
+
+.wp-block-freights-container[data-width='wide'] {
   max-width: 1024px;
   margin-left: auto;
   margin-right: auto;
